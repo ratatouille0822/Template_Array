@@ -75,9 +75,9 @@ class MyArray
 public:
 	MyArray()
 	{
-		this->capa = 0;
+		this->capa = 10;
 		this->size = 0;
-		this->arr = NULL;
+		this->arr = new T[10];
 		cout << "MyArray()" << endl;
 	}
 
@@ -112,15 +112,15 @@ public:
 			memcpy(temp, this->arr, sizeof(T) * this->size);
 			delete[] this->arr;
 			this->arr = temp;
-			memcpy(&this->arr[size], &push_back_data, sizeof(push_back_data));
-			//this->arr[this->size] = push_back_data;
+			//memcpy(&this->arr[this->size], &push_back_data, sizeof(T));
+			this->arr[this->size] = push_back_data;
 			this->size++;
 			this->capa*= 2;
 		}
 		else
 		{
 			this->arr[size] = push_back_data;
-			//memcpy(&this->arr[size], &push_back_data, sizeof(push_back_data));
+			//memcpy(&this->arr[this->size], &push_back_data, sizeof(T));
 			this->size++;
 		}
 	}
@@ -221,24 +221,31 @@ void test02()
 void test03()
 {
 	MyArray<Person>* person_array = new MyArray<Person>;
+	PrintPerson print_person = PrintPerson();
 	person_array->push_back(Person(10, "Liu, Bei"));
 	person_array->push_back(Person(20, "Guan, Yu"));
 	person_array->push_back(Person(30, "Zhang, Fei"));
 	person_array->get_size();
 
-	person_array->print_data(PrintPerson());
+	person_array->print_data(print_person);
 	person_array->pop();
-	person_array->print_data(PrintPerson());
+	person_array->print_data(print_person);
 
 	MyArray<Person> p1 = *person_array;
-	p1.print_data(PrintPerson());
+	p1.print_data(print_person);
+
+	print_person(Person(40, "Zhao, yun"));
+
+	const int* p = NULL;
+	int* p2 = const_cast<int*>(p);
+
 
 }
 
 int main()
 {
-	test01();
-	test02();
+	/*test01();
+	test02();*/
 	test03();
     std::cout << "Hello World!\n"; 
 }
